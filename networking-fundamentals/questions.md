@@ -6,8 +6,22 @@ Networking fundamentals cover the core concepts that underpin all network commun
 
 ## Conceptual Questions
 
+- What is a protocol stack? 
+A collection of networking protocols in layers that work together to send and receive data with each protocol responsible for a specific job.
+
+- What is the TCP/IP model?
+A four layer networking architecture that describes how dat amoves from an application on one device to another across a network.
+
+- What are the four layers of the TCP/IP model?
+
+Application -> provides network services to applications such as DHCP, DNS, HTTP, SSH. *what service do i want?*. application protocols define message rules and meaning. 
+Transport   -> provides end to end communication between applications, like TCP for reliable delivery, or UDP for fast connectionless delivery. *how should it be delivered*. 
+Internet    -> Handles logical addressing and routing of packets between networks via IP or ICMP. *where is it going*. IP is responsible for getgting a packet from one machine to another across multiple networks; gives every device a IP, routes packets across routers,a nd breaks network into source -> destination. Logical addressing is an address that is assigned in software and can change depending on the network.
+Link        -> handles comuniocation over the local network and physical medium, e.g. ethernet or wifi *how do i send it on this local network*. Defines ohw bits are structured into frames, how devices share the medium, how mac addresses are used, etc. At this layer IP is irrelevant and MAC addresses are. Essentially ,link layer = delivery inside a single network.
+
 - What is the OSI model?
 - What are the seven layers of the OSI model?
+- How does the TCP/IP model map to the OSI model?
 - What is the physical layer?
 - What is the data link layer?
 - What is the network layer?
@@ -15,9 +29,6 @@ Networking fundamentals cover the core concepts that underpin all network commun
 - What is the session layer?
 - What is the presentation layer?
 - What is the application layer?
-- What is the TCP/IP model?
-- What are the four layers of the TCP/IP model?
-- How does the TCP/IP model map to the OSI model?
 - What is a protocol?
 - What is encapsulation?
 - What is decapsulation?

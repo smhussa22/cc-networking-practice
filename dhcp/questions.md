@@ -30,20 +30,23 @@ As a result, teh comptuer may try to sedn traffic to a rotuer that doesn't need 
 Since the default gateway is the device, usually router, that your computer sends traffic to when the destination is ouitside the LAN, if there exists no device at the IP address set as the default gateway, nothing will answer your traffic. LAN is still possible, but it is not possible to reach the internet.
 
 - Explain DHCP from device boot to internet access.
+Device turns on -> network interface, either ethernet or wifi initializes -> device sends a DHCP discover message to find the DHCP server's address -> DHCP responds with a DHCP Offer message, which contains an available IP address from its IP address pool, a subnet mask, default gateway, length of its lease before the IP must be renewed, and DNS server or servers, i.e., the IP address or addresses of DNS servers that translate domain names into IP addresses. -> device sends a DHCP request saying it wants the address and settings -> DHCP server sends a DHCP ACK, confirming the lease -> device receives all of the previously mentioned settings -> devices can now join the local network and communicate on LAN -> device uses DNS server to translate domain names when accessing website, for example -> since website is outside local network, packets sent to default gateway -> router replaces device's private IP with the home's public IP via Network Address Translation (NAT) -> router forwards packets until they readch destination -> server sends responses back through router, which uses NAT to forward them to correct device
+
 - Explain the DORA process.
-  - DISCOVER
-  - OFFER
-  - REQUEST
-  - ACK
+  - DISCOVER -> what a device will broadcast (send to every device on LAN) in order to discover the DHCP server
+  - OFFER    -> DHCP server responds to a DISCOVER with an offer containing IP address, subnet mask, default gateway, dns servers, and lease length
+  - REQUEST  -> device responds to OFFER with a request for those network configurations
+  - ACK      -> if successfull, DHCP server responds back with ACK confirming the settings were given
 
 ## Packet Fields
 
-- What is xid?
-- What is ciaddr?
-- What is yiaddr?
-- What is giaddr?
-- What is the flags field?
-- What is the broadcast bit?
+- What is xid?                -> "Transaction ID", a 32 bit int set by client to match incoming server replies like offers or acks with its own pending requests; prevents client from confusing responses if multiple reuqests are sent at the same time. In short, it just is used to pair a DHCP request with the correct response; this offer or ack is for the request i just sent.
+
+- What is ciaddr?             -> "Client IP Address", 32 bit IP address the client is currently using if it has one, else 0. Used if client is renewing lease, rebinding, or trying to extend its IP if its alreayd configured. It is only empty during a DISCOVER.
+- What is yiaddr?             -> "Your IP  Address", a 32 bit IP address the DHCP server is offering/assigning to the client. Set by DHCP server, not client, appears in OFFER or ACK. Essentially tells client this is your new IP address. Not redundant with ciaddr; initially the ciaddr starts at 0.0.0.0/unset. After device sends out a DISCOVER, server sends a OFFER and sets yiaddr to say `192.168.1.25`. Then, if client sends REQUEST and server ACKs, client configures itself (OS applies network settings) with yiaddr.
+- What is giaddr?             -> "Gateway IP Address", 32 bit IP address of the DHCP relay agent, the router, that forwarded the DHCP request. Set by the DHCP relay agent. In home networks the DHCP server is usually inside of a router, so giaddri is typically unused or zero since no need for a relay. But in general network setups, routers act as relay agents, using giaddr to tell the external DHCP server which subnet the request came form. 
+- What is the flags field?    -> 16 bits, but under current DHCP specification the leftmost bit is defined and the other 15 are reserved.
+- What is the broadcast bit?  -> The leftmost bit in flags. Set by the client to request that the DHCP server broadcast its reply instead of sending it as a unicast packet, useful when the client doesn't have a configured IP address or cant reliably receive the unicast packet. Unicast would be to the clients mac address. For the initial DHCP exchange. broadcasting replies are the norm.
 
 ## Lease Management
 
