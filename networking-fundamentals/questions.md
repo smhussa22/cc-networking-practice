@@ -39,6 +39,7 @@ Link        -> handles comuniocation over the local network and physical medium,
 - What is an IP address?
 - What is IPv4?
 - What is IPv6?
+
 - What is CIDR notation?
 - What is a subnet mask?
 - What is a subnet?

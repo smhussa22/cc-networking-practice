@@ -51,30 +51,49 @@ Device turns on -> network interface, either ethernet or wifi initializes -> dev
 ## Lease Management
 
 - What is a lease?
+A set amount of time that a device (dhcp client) is allowed to have its IP address assignedb y dhc pserver before it must renew it or have it relinquished back to the DHCP server's pool.
 - What is lease expiration?
+Occurs when the lease timer runs out and the client has not successfully renewed its lease. DHCP server returns the IP address to the available pool and the client must stop using that address.
 - What is T1?
+Renewal Time. The point i which the client begins trying to renew its lease with the DHCP server that originally assigned the address, usually at around ~50% of lease duration.
 - What is T2?
+Rebinding Time. The point in which the client beigns trying to rebind with any available DHCP server if the original server did not respond during renewal. Typically ~87.5% of leasue duration.
 - Explain renewal.
+At T1,  the client will send a DHCPREQUEST directly to the DHCP server that originally leased the address via unicast. If the server replies with DHCPACK, ten the lease is extended and the lease tiemrs are reset. If there is no response, it continues using its current IP address and will periodically retry until T2. 
 - Explain rebinding.
+At T2, if the renewal has failed ,the client sends a DHCPREQUEST via broadcast because ti assumes the original server it got a leased address from is not available anymore. Any DHCP server can validate the lease and respond with a DHCPACK, but if no server responds, the client stops using the IP and retries the usual DHCP process of DISCOVER -> OFFER -> REQUEST -> ACK again.
 - Explain RELEASE.
-- Explain DECLINE.
+DHCPRELEASE; sent by a client voluntarily giving up its IP address. e.g. graceful shtudown or disconnecting from the network. The server immediately returns it sIP address to the avialable pool and no acknowledgement is required.
+- Explain DECLINE. 
+DHCPDECLINE; sent by a client when it detects that the offered IP address is already in use on the network, usually via ARP (Address Resolution Protocol). The device broadcasts an ARP probe to see if the network responds to that specific IP. If a device responds with its MAC address, the device knows its taken. After this inform, the server marks the address unusable until it can verify it is safe to reassign.
 - Explain INFORM.
+DHCPINFORM; used by a client that already hasa valid IP but wants additional network config from the DHCP server. The server responds with DHCPACK containing config info like subnet mask, defualt gateway, dns servers, domain name, etc. THe server doesn't modify the client's IP address in this response
 
 ## Networking
 
 - Why is DISCOVER broadcast?
+In short, because the device does not know where if any DHCP servers exist. The client doesn't have an IP address yet and doesn't know the IP addr of the DHCP server; it needs to broadcast DHCPDISCOVER to allow any potential DHCP server on the LAN to receive it and respond with DHCPOFFER.
 - Why isn't OFFER always broadcast?
+Because the DHCP server knows the client's MAC address which it sent with DHCPDISCOVER; it cant send the DHCPOFFERR via unicast using that. However, it can still be broadcast if the client requests it via the broadcast bit in DISCOVER, or the client cant receive unicast poackets before its network stack is fully configured.
 - What is a DHCP relay?
+Usually a router or some form of a layer 3 device that forwards DHCP messages between clients and a DHCP server located on a different subnet. On home networks the DHCP server is usually baked into a router but this is not always the case.
 - Why is relay needed?
+DHCP clients initially send broadcast messages like DISCOVER, adn routers don't forward these between subnets. If a DHCP server was on a different subnet, then the client cant communicate with it.
 - How does DHCP work across subnets?
-
+client broadcasts dhcpdiscover -> relay receives broadcast -> relay forwards DHCPDISCOVER as unicast packet to DHCP server, adds gateway IP (giaddr) to indicate which subnet it came from -> DHCP server uses giaddr to determine which subnet's adderss pool to get an IP from -> server unicast DHCPOFFER back to relay -> relay forwards OFFER to client on local subnet -> remaining DHCPREQUEST AND DHCP ACK messages follow same tpath
 ## Options
 
 - What are DHCP options?
+additional pieced of info included in DHCP messages to provide config details to clients, examples are a default gateway, subnet mask, dns servers, lease time, message type, dns servers, etc. Each option is identified by an option number:
+
 - What is Option 53?
+DHCP Message Type. Tells recipient what kind of DHCP message is being sent, e.g. DISCOVER, OFFER, REQUEST, DECLINE, RELEASE, INFORM, ACK, NACK.
 - What is Option 50?
+Requested IP Address. Used by the client to request a specific IP address. E.g. requesting the IP adddress from the DHCPOFFER or requesting its previous IP after reconnecting to a network.
 - What is Option 54?
+DHCP Server Identifier. Contaits IP address of DHCP server involved in the transaction, used by cients to identify what server its communicate with especially when multiple respond to a DHCPDISCOVER. 
 - What is Option 51?
+IP Address Lease Time. 
 
 ## Coding
 
