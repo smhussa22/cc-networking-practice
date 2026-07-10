@@ -58,16 +58,23 @@ Translates, encrypts, decrypts, compresses, and formats data so applications can
 Provides network services directly to user applications, such as web browsing, email, file transfer, and name resolution (HTTP, HTTPS, DNS, SMTP, FTP, SSH).
 
 - What is a protocol?
+A set of defined or standardized rules for communication. In networking, this is how devices communicate including message formats, timing, error handling, and expected behaviour.
+
 - What is encapsulation?
+Adding protocol specific headers / trailers to data as it moves down the protocol stack before  transmission. E.g. tcp adding its tcp header, ip adding its ip header, ethernet adding its header and trailer as an ethernet frame BEFORE bits being sent over the wire.
+
 - What is decapsulation?
+Removing these protocol specific headers or trailers as data moves up the protocol stack before being recieved; reach layer read sfor the information it. needs / info that was meant for it, removes it, and passes it to the layer above.  e.g. bits received -> ethernet removes ethernet frame -> ip removes ip header -> tcp removes ttcp header -> application receives original data.
+
 - What is a PDU (Protocol Data Unit)?
+the unit of data at a specific layer of the protocol stack; each laye has its own pdu because it adds its own header / trailers. for example, the application layers pdu is data or a message, and a transport layers would be the segment or datagram for tcp or udp, and physical layer would be bits.
+
 - What is a frame (Layer 2 PDU)?
 - What is a packet (Layer 3 PDU)?
 - What is a segment (Layer 4 PDU)?
 - What is an IP address?
 - What is IPv4?
 - What is IPv6?
-
 - What is CIDR notation?
 - What is a subnet mask?
 - What is a subnet?
@@ -93,6 +100,7 @@ Provides network services directly to user applications, such as web browsing, e
 - What is an ICMP echo reply (pong)?
 - What is an ICMP unreachable?
 - What is an ICMP redirect?
+
 - What is TTL (Time to Live)?
 - What happens when TTL reaches zero?
 - What is traceroute and how does it use TTL?
