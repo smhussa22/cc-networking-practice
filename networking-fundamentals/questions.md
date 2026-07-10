@@ -20,15 +20,43 @@ Internet    -> Handles logical addressing and routing of packets between network
 Link        -> handles comuniocation over the local network and physical medium, e.g. ethernet or wifi *how do i send it on this local network*. Defines ohw bits are structured into frames, how devices share the medium, how mac addresses are used, etc. At this layer IP is irrelevant and MAC addresses are. Essentially ,link layer = delivery inside a single network.
 
 - What is the OSI model?
+
+Open Systems Interconnection. Seven layer (conceptual) networking model that standardizes how network communication works. Unlike TCP, it is primarily used for understanding, designing, and troubleshooting networks rather than being a protocol suite used on the internet.
+
 - What are the seven layers of the OSI model?
+
+Physical, Data Link, Network, Transport, Session, Presentation, Application.
+
 - How does the TCP/IP model map to the OSI model?
+
+TCP/IP combines a few of these layers. TCP has 4 layters; Application, Transport, Internet, & Link.
+
+Application -> combines Application + Presentation + Session
+Transport -> Transport
+Internet -> Network
+Link -> Data Link + Physical
+
 - What is the physical layer?
+Raw bits over a physical medium like cables, fiber, radio signals.
+
 - What is the data link layer?
+Node to node communication on the same network. Handles framing, MAC addressing, error detection, and media access control. 
+
 - What is the network layer?
+Routes packets between different networks using logical IP addresses.
+
 - What is the transport layer?
+Provides end-to-end communication between applications. Handles segmentation, reliability, flow control, and error recovery (TCP/UDP).
+
 - What is the session layer?
+Establishes, manages, and termindates communication sessions between applications.
+
 - What is the presentation layer?
+Translates, encrypts, decrypts, compresses, and formats data so applications can understand it.
+
 - What is the application layer?
+Provides network services directly to user applications, such as web browsing, email, file transfer, and name resolution (HTTP, HTTPS, DNS, SMTP, FTP, SSH).
+
 - What is a protocol?
 - What is encapsulation?
 - What is decapsulation?
